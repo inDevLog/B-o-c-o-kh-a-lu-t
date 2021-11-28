@@ -1,0 +1,34 @@
+Json Unity
+B1 : Download NuGetForUnity.3.0.2.unitypackage
+B2 : Import package ( Menu Assest trong Unity -> Import Package > Custom Package... )
+B3 : Install NewtonSoft.Json & WebSocketSharp-standard
+B4 : Add library :
+##########################################
+	using WebSocketSharp;
+	using Newtonsoft.Json.Linq;
+#######################################
+B5 : Trong ham Start()
+void Start()
+
+{
+   ws = new WebSocket("ws://dia chi IP cua sever:8080/Server_java/endpoint");
+      
+        ws.OnMessage += (sender, e) =>
+        {
+            this.data = JObject.Parse(e.Data);
+        };
+        ws.OnOpen += (sender, e) =>
+        {
+            JObject o = new JObject();
+            o["role"] = 1; //receiver
+            ws.Send(o.ToString());
+        };
+        ws.Connect();
+}
+B6 : 
+void Update()
+{
+  value = data.key;
+  
+}
+
